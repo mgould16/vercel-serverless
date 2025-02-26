@@ -12,26 +12,30 @@ export default function Home() {
     }
   };
 
-  const handleUpload = async () => {
-    if (!image) return;
+const handleUpload = async () => {
+  if (!image) return;
 
-    const formData = new FormData();
-    formData.append("image", image);
+  const formData = new FormData();
+  formData.append("image", image);
 
-    try {
-      const response = await fetch("/api/image-processor", {
-        method: "POST",
-        body: formData,  // ✅ Fixed issue (previously "f" was incorrect)
-      });
+  try {
+    const response = await fetch("/api/image-processor", {
+      method: "POST",
+      body: formData,
+    });
 
-      const data = await response.json();
-      if (data.image) {
-        setProcessedImage(data.image);
-      }
-    } catch (error) {
-      console.error("Error uploading image:", error);
+    const data = await response.json();
+    console.log("API Response:", data);  // ✅ Log response in the console
+
+    if (data.image) {
+      setProcessedImage(data.image);  // ✅ Ensure the UI updates
+    } else {
+      console.error("No image returned from API");
     }
-  };
+  } catch (error) {
+    console.error("Error uploading image:", error);
+  }
+};
 
   return (
     <div className="container">

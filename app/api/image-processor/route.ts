@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
+    // Get the image from the request
     const formData = await req.formData();
     const file = formData.get("image");
 
@@ -19,6 +20,7 @@ export async function POST(req) {
     // Convert processed image to base64
     const base64Image = processedBuffer.toString("base64");
 
+    // Return the processed image as a data URL
     return NextResponse.json({ image: `data:image/png;base64,${base64Image}` });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
